@@ -12,4 +12,30 @@ model User {
   email     String   @unique
   password  String
   createdAt DateTime @default(now())
+  groups    Group[]  @relation("UserGroups")
+
+  Message Message[]
+  Group Group[]
+}
+
+model Group {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  users     User[]    @relation("UserGroups")
+  messages  Message[]
+  adminId   String
+
+  creator   User      @relation(fields: [adminId], references: [id])
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  content   String
+  senderId  String
+  groupId   String
+  createdAt DateTime @default(now())
+
+  sender User  @relation(fields: [senderId], references: [id])
+  group  Group @relation(fields: [groupId], references: [id])
 }

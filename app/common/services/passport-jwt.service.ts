@@ -71,7 +71,7 @@ export const createUserTokens = (user: Omit<IUser, 'password'>) => {
     // create access token and refresh token
     const jwtSecret = process.env.JWT_SECRET ?? ''
     const accessToken = jwt.sign( user , jwtSecret, {
-        expiresIn: '1d',
+        expiresIn: '15m',
     })
     const refreshToken = jwt.sign({ user }, jwtSecret, {
         expiresIn: '7d',
