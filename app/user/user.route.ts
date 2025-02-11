@@ -13,7 +13,7 @@ router
         catchError,
         userController.createUser
     )
-    .post('/login', userValidator.login, catchError, userController.login)
+    .post('/login', userValidator.login, catchError, userController.login)     
     .get('/:email', authenticate, userController.getUserByEmail)
     .get('/id/:id', authenticate, userController.getUserById)
 

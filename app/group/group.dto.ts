@@ -12,4 +12,5 @@ export interface IGroup extends BaseSchema {
     users: IUser[]
     messages: IMessage[]
     adminId: string
+    isPrivate: boolean
 }

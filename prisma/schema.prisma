@@ -15,18 +15,19 @@ model User {
   groups    Group[]  @relation("UserGroups")
 
   Message Message[]
-  Group Group[]
+  Group   Group[]
 }
 
 model Group {
   id        String    @id @default(cuid())
   name      String    @unique
   createdAt DateTime  @default(now())
+  isPrivate Boolean  @default(false)
   users     User[]    @relation("UserGroups")
   messages  Message[]
   adminId   String
 
-  creator   User      @relation(fields: [adminId], references: [id])
+  creator User @relation(fields: [adminId], references: [id])
 }
 
 model Message {

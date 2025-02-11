@@ -2,7 +2,7 @@ import { prisma } from '../common/services/database.service'
 import { IGroup } from './group.dto'
 
 export const createGroup = async (data: IGroup) => {
-    const { name, adminId } = data
+    const { name, adminId, isPrivate } = data
     const result = prisma.group.create({
         data: {
             name,
@@ -15,6 +15,7 @@ export const createGroup = async (data: IGroup) => {
                 create: [],
             },
             adminId,
+            isPrivate,
         },
     })
     return result
