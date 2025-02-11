@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import passport from 'passport'
 import { Strategy, ExtractJwt } from 'passport-jwt'
@@ -68,9 +68,15 @@ export const initPassport = (): void => {
 }
 
 export const createUserTokens = (user: Omit<IUser, 'password'>) => {
+    // create access token and refresh token
     const jwtSecret = process.env.JWT_SECRET ?? ''
-    const token = jwt.sign(user, jwtSecret)
-    return { accessToken: token, refreshToken: '' }
+    const accessToken = jwt.sign( user , jwtSecret, {
+        expiresIn: '1d',
+    })
+    const refreshToken = jwt.sign({ user }, jwtSecret, {
+        expiresIn: '7d',
+    })
+    return { accessToken: accessToken, refreshToken: refreshToken }
 }
 
 export const decodeToken = (token: string) => {

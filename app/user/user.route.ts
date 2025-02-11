@@ -6,7 +6,13 @@ import * as userValidator from './user.validation'
 const router = Router()
 
 router
-    .post('/', userValidator.createUser, catchError, userController.createUser)
+    .post(
+        '/signup',
+        userValidator.createUser,
+        catchError,
+        userController.createUser
+    )
+    .post('/login', userValidator.login, catchError, userController.login)
     .get('/:email', userController.getUserByEmail)
     .get('/id/:id', userController.getUserById)
 
