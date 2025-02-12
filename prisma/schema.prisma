@@ -13,9 +13,11 @@ model User {
   password  String
   createdAt DateTime @default(now())
   groups    Group[]  @relation("UserGroups")
+  pendingRequests Approval[] @relation("UserPendingRequests")
 
   Message Message[]
   Group   Group[]
+  Approval Approval[]
 }
 
 model Group {
@@ -28,6 +30,7 @@ model Group {
   adminId   String
 
   creator User @relation(fields: [adminId], references: [id])
+  Approval Approval[]
 }
 
 model Message {
@@ -39,4 +42,15 @@ model Message {
 
   sender User  @relation(fields: [senderId], references: [id])
   group  Group @relation(fields: [groupId], references: [id])
+}
+
+model Approval {
+  id        String   @id @default(cuid())
+  userId    String
+  groupId   String
+  createdAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id])
+  group Group @relation(fields: [groupId], references: [id])
+  User User[] @relation("UserPendingRequests")
 }

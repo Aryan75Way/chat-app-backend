@@ -1,9 +1,10 @@
 import { prisma } from '../common/services/database.service'
+import { requestApproval } from '../user/user.service'
 import { IGroup } from './group.dto'
 
 export const createGroup = async (data: IGroup) => {
     const { name, adminId, isPrivate } = data
-    const result = prisma.group.create({
+    const result = await prisma.group.create({
         data: {
             name,
             users: {
@@ -22,7 +23,7 @@ export const createGroup = async (data: IGroup) => {
 }
 
 export const getGroupById = async (id: string) => {
-    const result = prisma.group.findUnique({
+    const result = await prisma.group.findUnique({
         where: {
             id,
         },
@@ -39,7 +40,7 @@ export const getGroupById = async (id: string) => {
 }
 
 export const getGroupByName = async (name: string) => {    
-    const result = prisma.group.findUnique({
+    const result = await prisma.group.findUnique({
         where: {
             name,
         },
@@ -48,7 +49,7 @@ export const getGroupByName = async (name: string) => {
 }
 
 export const findUserInGroup = async (groupId: string, userId: string) => {
-    const result = prisma.group.findUnique({
+    const result = await prisma.group.findUnique({
         where: {
             id: groupId,
         },
@@ -64,17 +65,37 @@ export const findUserInGroup = async (groupId: string, userId: string) => {
 }
 
 export const addUserToGroup = async (groupId: string, userId: string) => {
-    const result = prisma.group.update({
+    // if group is public, add user to group else ask group admin to aprrove user to group
+    const result= await prisma.group.findUnique({
         where: {
             id: groupId,
-        },
-        data: {
-            users: {
-                connect: {
-                    id: userId,
+        }
+    })
+
+    const admin = result?.adminId;
+
+    if (!result?.isPrivate) {
+        const response = await prisma.group.update({
+            where: {
+                id: groupId,
+            },
+            data: {
+                users: {
+                    connect: {
+                        id: userId,
+                    },
                 },
             },
-        },
-    })
-    return result
+        })
+        return response;
+    } else {
+        if (admin) {
+            await requestApproval(
+                groupId,
+                userId,
+                admin,
+            );
+        }
+        return false;
+    }
 }

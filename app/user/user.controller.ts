@@ -45,3 +45,18 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
         }
     )(req, res)
 })
+
+export const getPendingRequests = asyncHandler(async (req: Request, res: Response) => {
+    const result = await userService.getPendingRequests(req.body.adminId)
+    res.send(createResponse(result))
+})
+
+export const approveUser = asyncHandler(async (req: Request, res: Response) => {
+    const result = await userService.approveUser(req.body.groupId, req.body.userId, req.body.adminId)
+    res.send(createResponse(result))
+})
+
+export const requestApproval = asyncHandler(async (req: Request, res: Response) => {
+    const result = await userService.requestApproval(req.body.groupId, req.body.userId, req.body.adminId)
+    res.send(createResponse(result))
+})
