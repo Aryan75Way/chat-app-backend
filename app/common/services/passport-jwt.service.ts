@@ -80,7 +80,7 @@ export const createUserTokens = (user: Omit<IUser, 'password'>) => {
 }
 
 export const decodeToken = (token: string) => {
-    // const jwtSecret = process.env.JWT_SECRET ?? "";
-    const decode = jwt.decode(token)
+    const jwtSecret = process.env.JWT_SECRET ?? "";
+    const decode = jwt.verify(token, jwtSecret)
     return decode as IUser
 }
