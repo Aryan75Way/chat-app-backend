@@ -37,3 +37,44 @@ export const getGroupById = async (id: string) => {
     })
     return result
 }
+
+export const getGroupByName = async (name: string) => {    
+    const result = prisma.group.findUnique({
+        where: {
+            name,
+        },
+    })
+    return result
+}
+
+export const findUserInGroup = async (groupId: string, userId: string) => {
+    const result = prisma.group.findUnique({
+        where: {
+            id: groupId,
+        },
+        include: {
+            users: {
+                where: {
+                    id: userId,
+                },
+            },
+        },
+    })
+    return result
+}
+
+export const addUserToGroup = async (groupId: string, userId: string) => {
+    const result = prisma.group.update({
+        where: {
+            id: groupId,
+        },
+        data: {
+            users: {
+                connect: {
+                    id: userId,
+                },
+            },
+        },
+    })
+    return result
+}

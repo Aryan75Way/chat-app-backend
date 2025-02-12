@@ -12,3 +12,8 @@ export const getGroupById = expressAsyncHandler(async (req: Request, res: Respon
     const result = await groupService.getGroupById(req.params.id)
     res.send(createResponse(result, 'Group found'))
 })
+
+export const getGroupByName = expressAsyncHandler(async (req: Request, res: Response) => {
+    const result = await groupService.getGroupByName(req.params.name)
+    res.send(createResponse(result, 'Group found'))
+})

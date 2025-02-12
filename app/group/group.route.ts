@@ -19,5 +19,9 @@ router
         authenticate,
         groupController.getGroupById,
     )
+    .get('/group/:name/',
+        authenticate,
+        groupController.getGroupByName
+    )
 
 export default router

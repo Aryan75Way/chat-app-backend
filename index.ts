@@ -36,6 +36,7 @@ const initApp = async () => {
             if (token) {
                 // Verify token
                 const user = decodeToken(token)
+                
                 if (user) {
                     next()
                 } else {
