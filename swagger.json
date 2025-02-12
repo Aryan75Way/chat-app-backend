@@ -1,0 +1,290 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Group Chat API",
+        "description": "This is a simple API Documentation for Group Chat Backend.",
+        "version": "1.0.0"
+    },
+    "host": "localhost:3000",
+    "basePath": "/api",
+    "schemes": ["http"],
+    "paths": {
+        "/users/signup": {
+            "post": {
+                "summary": "User Signup",
+                "description": "Creates a new user by providing user details.",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "description": "User details for signup",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "User created successfully",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input or user already exists"
+                    }
+                }
+            }
+        },
+        "/users/login": {
+            "post": {
+                "summary": "User Login",
+                "description": "Authenticates a user and returns a token.",
+                "parameters": [
+                    {
+                        "name": "login",
+                        "in": "body",
+                        "description": "User credentials for login",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Login"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User logged in successfully",
+                        "schema": {
+                            "$ref": "#/definitions/LoginResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid credentials"
+                    }
+                }
+            }
+        },
+        "/users/{email}": {
+            "get": {
+                "summary": "Get User by Email",
+                "description": "Retrieves user details by email.",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "The email address of the user"
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User details found",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
+        "/users/id/{id}": {
+            "get": {
+                "summary": "Get User by ID",
+                "description": "Retrieves user details by user ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "The unique ID of the user"
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User details found",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
+        "/groups/create":{
+            "post":{
+                "summary": "Create Group",
+                "description": "Creates a new group by providing group details.",
+                "parameters": [
+                    {
+                        "name":"group",
+                        "in":"body",
+                        "description":"Group name",
+                        "required":true,
+                        "schema":{
+                            "$ref":"#/definitions/Group"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Group created successfully",
+                        "schema": {
+                            "$ref": "#/definitions/Group"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input or group already exists"
+                    }
+                }
+            }
+        },
+        "/groups/{id}": {
+            "get": {
+                "summary": "Get Group by ID",
+                "description": "Retrieves group details by group ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "The unique ID of the group"
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Group details found",
+                        "schema": {
+                            "$ref": "#/definitions/Group"
+                        }
+                    },
+                    "404": {
+                        "description": "Group not found"
+                    }
+                }
+            }
+        },
+        "/groups/group/{name}": {
+            "get": {
+                "summary": "Get Group by Name",
+                "description": "Retrieves group details by group name.",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "The name of the group"
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Group details found",
+                        "schema": {
+                            "$ref": "#/definitions/Group"
+                        }
+                    },
+                    "404": {
+                        "description": "Group not found"
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    },
+    "definitions": {
+        "User": {
+            "type": "object",
+            "required": ["email", "password"],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "description": "The user's email address"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "The user's password"
+                }
+            }
+        },
+        "Login": {
+            "type": "object",
+            "required": ["email", "password"],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "description": "The user's email address"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "The user's password"
+                }
+            }
+        },
+        "Group": {
+            "type": "object",
+            "required": ["name", "adminId", "isPrivate"],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The group's name"
+                },
+                "adminId": {
+                    "type": "string",
+                    "description": "The admin's ID"
+                },
+                "isPrivate": {
+                    "type": "boolean",
+                    "description": "Is the group private"
+                }
+            }
+        },
+        "LoginResponse": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string",
+                    "description": "The authentication token for the user"
+                }
+            }
+        }
+    }
+}

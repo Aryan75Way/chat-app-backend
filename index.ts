@@ -9,6 +9,9 @@ import { Server } from 'socket.io'
 import { decodeToken, initPassport } from './app/common/services/passport-jwt.service'
 import router from './app/routes'
 import { handleChat } from './app/chat/chat.controller'
+import swaggerUI from 'swagger-ui-express';
+import swaggerDocument from './swagger.json';
+
 
 loadConfig()
 const port = Number(process.env.PORT) ?? 3000
@@ -19,6 +22,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(express.json())
 app.use(morgan('dev'))
+
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 const initApp = async () => {
     initPassport()
