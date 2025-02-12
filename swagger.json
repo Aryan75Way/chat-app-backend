@@ -127,6 +127,105 @@
                 }
             }
         },
+        "/users/pending-requests":{
+            "post":{
+                "summary": "Get Pending Requests",
+                "description": "Retrieves all pending requests for a user.",
+                "parameters": [
+                    {
+                        "name":"userId",
+                        "in":"body",
+                        "description":"User ID",
+                        "required":true,
+                        "schema":{
+                            "$ref":"#/definitions/PendingRequests"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pending requests found",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "404": {
+                        "description": "No pending requests found"
+                    }
+                }
+            }
+        },
+        "/users/approve-user":{
+            "post":{
+                "summary": "Approve User",
+                "description": "Approves a user's request to join a group.",
+                "parameters": [
+                    {
+                        "name":"userId",
+                        "in":"body",
+                        "description":"User ID",
+                        "required":true,
+                        "schema":{
+                            "$ref":"#/definitions/Approval"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User approved successfully",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
+        "/users/request-approval":{
+            "post":{
+                "summary": "Request Approval",
+                "description": "Requests approval to join a group.",
+                "parameters": [
+                    {
+                        "name":"userId",
+                        "in":"body",
+                        "description":"User ID",
+                        "required":true,
+                        "schema":{
+                            "$ref":"#/definitions/Approval"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Request sent successfully",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
         "/groups/create":{
             "post":{
                 "summary": "Create Group",
@@ -275,6 +374,34 @@
                     "type": "boolean",
                     "description": "Is the group private"
                 }
+            }
+        },
+        "PendingRequests": {
+            "type": "object",
+            "required": ["adminId"],
+            "properties": {
+                    "adminId": {
+                        "type": "string",
+                        "description": "The admin's ID"
+                    }
+                }
+            }
+        },
+        "Approval": {
+            "type": "object",
+            "required": ["userId", "groupId", "adminId"],
+            "properties": {
+                "userId": {
+                    "type": "string",
+                    "description": "The user's ID"
+                },
+                "groupId": {
+                    "type": "string",
+                    "description": "The group's ID"
+                },
+                "adminId": {
+                    "type": "string",
+                    "description": "The admin's ID"
             }
         },
         "LoginResponse": {
