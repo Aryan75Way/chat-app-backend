@@ -1,7 +1,7 @@
 {
-  "name": "gosssip-backend",
+  "name": "chat-app-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "A chat application backend in express.js and socket.io",
   "main": "index.js",
   "scripts": {
     "local": "nodemon",

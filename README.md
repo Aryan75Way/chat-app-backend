@@ -6,21 +6,21 @@
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/iAryanK/gosssip-backend.git
+git clone https://github.com/iAryanK/chat-app-backend.git
 ```
 
 2. Navigate to the project directory:
 
 ```bash
-cd ./gosssip
+cd ./chat-app-backend
 ```
 
-3. Create a .env.production file & Copy the below environment variables to `.env.development`.
+3. Create a .env.development file & Copy the below environment variables to `.env.development`.
 
 ```bash
 PORT = 3000
 NODE_ENV = "development"
-FE_BASE_URL = "http://localhost:3001/"
+JWT_SECRET="TopSecret"
 ```
 
 4. Install dependencies:
@@ -40,3 +40,16 @@ pnpm dev
 ```bash
 http://localhost:3000
 ```
+
+## API Documentation
+
+- Swagger API Documentation is available at `/api-docs` route.
+
+```bash
+http://localhost:3000/api-docs
+```
+
+## ER Diagram
+
+![ER Diagram](./public/er-diagram-chat-app-backend.png)
+
