@@ -11,7 +11,7 @@ import router from './app/routes'
 import { handleChat } from './app/chat/chat.controller'
 import swaggerUI from 'swagger-ui-express';
 import swaggerDocument from './swagger.json';
-
+import cors from 'cors';
 
 loadConfig()
 const port = Number(process.env.PORT) ?? 3000
@@ -22,7 +22,11 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(express.json())
 app.use(morgan('dev'))
-
+app.use(
+    cors({
+        origin: '*',
+    })
+)
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 const initApp = async () => {
