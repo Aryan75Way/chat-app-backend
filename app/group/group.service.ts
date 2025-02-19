@@ -39,7 +39,7 @@ export const getGroupById = async (id: string) => {
     return result
 }
 
-export const getGroupByName = async (name: string) => {    
+export const getGroupByName = async (name: string) => {
     const result = await prisma.group.findUnique({
         where: {
             name,
@@ -66,13 +66,13 @@ export const findUserInGroup = async (groupId: string, userId: string) => {
 
 export const addUserToGroup = async (groupId: string, userId: string) => {
     // if group is public, add user to group else ask group admin to aprrove user to group
-    const result= await prisma.group.findUnique({
+    const result = await prisma.group.findUnique({
         where: {
             id: groupId,
-        }
+        },
     })
 
-    const admin = result?.adminId;
+    const admin = result?.adminId
 
     if (!result?.isPrivate) {
         const response = await prisma.group.update({
@@ -87,15 +87,16 @@ export const addUserToGroup = async (groupId: string, userId: string) => {
                 },
             },
         })
-        return response;
+        return response
     } else {
         if (admin) {
-            await requestApproval(
-                groupId,
-                userId,
-                admin,
-            );
+            await requestApproval(groupId, userId, admin)
         }
-        return false;
+        return false
     }
+}
+
+export const getAllGroups = async () => {
+    const result = await prisma.group.findMany({})
+    return result
 }

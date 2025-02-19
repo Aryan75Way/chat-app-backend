@@ -2,7 +2,6 @@ import { loadConfig } from './app/common/helper/config.helper'
 import express from 'express'
 import http from 'http'
 import errorHandler from './app/common/middleware/error-handler.middleware'
-// import router from './app/routes'
 import bodyParser from 'body-parser'
 import morgan from 'morgan'
 import { Server } from 'socket.io'
@@ -22,11 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(express.json())
 app.use(morgan('dev'))
-app.use(
-    cors({
-        origin: '*',
-    })
-)
+app.use(cors({ origin: '*' }));
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 const initApp = async () => {

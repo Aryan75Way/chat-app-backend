@@ -23,5 +23,6 @@ router
         authenticate,
         groupController.getGroupByName
     )
+    .get('/', authenticate, groupController.getAllGroups)
 
 export default router

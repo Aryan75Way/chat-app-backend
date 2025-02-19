@@ -19,5 +19,6 @@ router
     .post('/pending-requests', userValidator.pendingRequests, authenticate, userController.getPendingRequests)
     .post('/approve-user', userValidator.approveUser, authenticate, userController.approveUser)
     .post('/request-approval', userValidator.requestApproval, authenticate, userController.requestApproval)
+    .get('/me', authenticate, userController.getCurrentUser)
 
 export default router

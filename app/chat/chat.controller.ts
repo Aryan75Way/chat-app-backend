@@ -16,7 +16,6 @@ export function handleChat(socket: Socket, io: Server) {
 
     socket.on('join-group', async (group: string) => {
         const groupExists = await groupService.getGroupByName(group)
-        console.log('[GROUP]', groupExists)
 
         if (groupExists) {
             const token = socket.handshake.headers.authorization
